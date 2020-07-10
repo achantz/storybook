@@ -13,12 +13,14 @@ RUN npm install -g @angular/cli
 
 COPY ./ /app
 
+RUN ls
+
 RUN npm run build-storybook
 
 # deploy phase
-FROM nginx
+FROM nginx:alpine
 
-COPY nginx/ /etc/nginx/conf.d
+COPY nginx/ /etc/nginx/conf.d/
 
 RUN rm -rf /usr/share/nginx/html/*
 
