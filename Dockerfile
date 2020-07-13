@@ -1,7 +1,7 @@
 # build phase
 
 # get node container to build app
-FROM node:lts as build
+FROM node:lts-alpine as build
 
 # set work directory
 WORKDIR /app
