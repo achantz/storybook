@@ -2,7 +2,7 @@
 
 set -e
 
-source /usr/local/s2i/env
+#source /usr/local/s2i/env
 
 echo -e "Running as user $(id)"
 

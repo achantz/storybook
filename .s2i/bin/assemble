@@ -2,7 +2,7 @@
 
 set -e
 
-source /usr/local/s2i/env
+#source /usr/local/s2i/env
 
 # Check to see if there is a node_modules folder
 if [ "$(ls -A /tmp/src/node_modules)" ]; then
@@ -46,5 +46,5 @@ mv ./storybook-static/* /opt/app-root/output
 
 # If the 'nodejs-centos7' assemble script is executed with the '-h' flag, print the usage.
 if [[ "$1" == "-h" ]]; then
-	exec /usr/libexec/s2i/usage
+	exec /usr/local/s2i/usage
 fi
