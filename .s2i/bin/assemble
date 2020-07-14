@@ -41,8 +41,8 @@ mkdir -p /opt/app-root/output
 # Move the files from our apps output directory to the common output directory
 mv ./storybook-static/* /opt/app-root/output
 
-# echo "---> Fix permissions on app-root"
-# fix-permissions /opt/app-root
+echo "---> Fix permissions on app-root"
+fix-permissions /opt/app-root
 
 # If the 'nodejs-centos7' assemble script is executed with the '-h' flag, print the usage.
 if [[ "$1" == "-h" ]]; then
