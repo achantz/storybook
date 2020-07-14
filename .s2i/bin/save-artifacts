@@ -1,5 +1,10 @@
-#!/bin/sh -e
+#!/bin/bash
 
-if [ "$(ls ${HOME}/node_modules 2>/dev/null)" ]; then
-  tar -C ${HOME} -cf - node_modules
+# Besides the tar command, all other output to standard out must 
+# be surpressed.  Otherwise, the tar stream will be corrupted.
+pushd ${HOME} >/dev/null
+if [ -d deps ]; then
+    # all deps contents to tar stream
+    tar cf - deps
 fi
+popd >/dev/null
