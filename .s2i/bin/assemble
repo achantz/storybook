@@ -2,6 +2,8 @@
 
 set -e
 
+source /usr/local/s2i/env
+
 # Check to see if there is a node_modules folder
 if [ "$(ls -A /tmp/src/node_modules)" ]; then
 	echo "---> Removing the node_modules folder"
