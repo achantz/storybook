@@ -1,41 +1,35 @@
 # build phase
-
 # get node container to build app
-FROM node:lts-alpine as build
+FROM centos/nodejs-12-centos7
 
-# set work directory
-WORKDIR /app
+# set metadata
+LABEL Author="Angelo Chantziantoniou <angelo.chantziantoniou@gov.ab.ca>"
 
-# add node_modules to path
-ENV PATH /app/node_modules/.bin:$PATH
+#ENV NGINX_VERSION=1.16
 
-# copy project dependencies to directory
-COPY package.json /app/package.json
+# Set labels used in OpenShift to describe the builder images
+ LABEL io.k8s.description="Platform for building nodejs applications" \
+ io.k8s.display-name="NodeJS 12" \
+ io.openshift.expose-services="8080:http" \
+ io.openshift.tags="builder,html,nodejs"
 
-# install angular cli since it is a dependency of all packages in app
-RUN npm install -g @angular/cli
+# copy source files
+COPY ./.s2i/bin/ /usr/local/s2i
 
-# install dependencies
-RUN npm install
+# Defines the location of the S2I
+LABEL io.openshift.s2i.scripts-url=image:///usr/local/s2i
 
-# copy app files
-COPY ./ /app
+# Copy the S2I scripts from ./.s2i/bin/ to /usr/local/s2i when making the builder image
+ COPY ./.s2i/bin/ /usr/local/s2i
 
-# show folder structure
-RUN ls
+ # Drop the root user and make the content of /opt/app-root owned by user 1001
+ RUN chown -R 1001:1001 /opt/app-root
 
-# build project
-RUN npm run build-storybook
+ # Set the default user for the image, the user itself was created in the base image
+ USER 1001
 
-# deploy phase
-FROM nginx:alpine
+ # Specify the ports the final image will expose
+ EXPOSE 8080
 
-COPY nginx/ /etc/nginx/conf.d/
-
-RUN rm -rf /usr/share/nginx/html/*
-
-COPY --from=build /app/storybook-static /usr/share/nginx/html
-
-EXPOSE 8080
-
-CMD [ "nginx", "-g", "daemon off;"]
+ # Set the default CMD to print the usage of the image, if somebody does docker run
+ CMD ["usage"]

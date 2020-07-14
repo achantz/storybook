@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+if [ "$(ls ${HOME}/node_modules 2>/dev/null)" ]; then
+  tar -C ${HOME} -cf - node_modules
+fi
