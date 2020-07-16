@@ -1,1 +1,1 @@
-oc new-app https://github.com/achantz/storybook.git
+oc new-app git@gitlab.gov.ab.ca:dio/core/ui-components.git#angelo-s2i --source-secret=ui-components-ssh --dry-run=false --name=ui-components --strategy=Source
